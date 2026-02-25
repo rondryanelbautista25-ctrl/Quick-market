@@ -40,6 +40,7 @@
     </div>
 
     <section class="product-gallery" id="product-gallery" style="display: none;">
+        <button class="back-btn" onclick="showHero()">← Back to Home</button>
         <h2 class="section-title">OUR COLLECTIONS</h2>
         <div class="product-grid">
             <div class="product-card">
@@ -68,6 +69,20 @@
 
 <script>
     let cart = [];
+
+    function showProducts() {
+  
+    document.getElementById("hero-section").style.display = "none";
+    document.getElementById("product-gallery").style.display = "block";
+    window.scrollTo(0, 0);
+}
+
+function showHero() {
+   
+    document.getElementById("product-gallery").style.display = "none";
+    document.getElementById("hero-section").style.display = "flex"; 
+    window.scrollTo(0, 0);
+}
 
     function toggleMenu() {
         document.getElementById("sideMenu").classList.toggle("open");
@@ -126,4 +141,5 @@
     }
 </script>
 </body>
+
 </html>
