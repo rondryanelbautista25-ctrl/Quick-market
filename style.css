@@ -271,4 +271,22 @@
 .cart-sidebar .close-btn:hover {
     background-color: #b30000;
     transform: rotate(90deg);  /* Adds a cool little spin effect */
+
+}
+
+.back-btn {
+    background-color: transparent;
+    color: #333;
+    border: 2px solid #333;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #333;
+    color: white;
 }
