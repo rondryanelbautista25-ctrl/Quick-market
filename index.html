@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SOUL ARMY</title>
+    <title>QUICK MART</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="navbar">
         <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-        <div class="logo">SOUL ARMY</div>
+        <div class="logo">QUICK MART</div>
         <div class="cart-icon" onclick="toggleCart()">
             <span>🛒</span> 
             <span id="cart-count">0</span>
@@ -15,11 +15,25 @@
     </header>
 
     <nav class="side-menu" id="sideMenu">
-        <button class="close-btn" onclick="toggleMenu()" style=>×</button>
+        <button class="close-btn" onclick="toggleMenu()">×</button>
         <a href="#">Home</a>
         <a href="#">Blogs</a>
-        <a href="#">About us</a>
-        <a href="#">Contact us</a>
+
+        <div class="menu-item-container">
+            <a href="javascript:void(0)" onclick="toggleSection('contact-info')">Contact us</a>
+            <div id="contact-info" class="dropdown-content">
+                <p style="margin-top:15px; font-size: 12px; color: #ffffff;">Email: soularmy6699@gmail.com</p>
+                <p style="margin-top:15px; font-size: 12px; color: #ffffff;">Facebook: soularmy</p>
+            </div>
+        </div>
+
+        <div class="menu-item-container">
+            <a href="javascript:void(0)" onclick="toggleAboutText()">About us</a>
+            <div id="about-text" class="dropdown-text">
+                Soul army was a Filipino heavy metal band from Plaridel Bulacan. 
+                They were formed in 2024, originally as a nu metal act.
+            </div>
+        </div>
     </nav>
 
     <div id="cart-sidebar" class="cart-sidebar">
@@ -32,16 +46,8 @@
         <button class="checkout-btn" onclick="checkout()">Checkout Now</button>
     </div>
 
-    <div class="main-hero" id="hero-section">
-        <div class="hero-content">
-            <h1>SHOP NOW</h1>
-            <a href="javascript:void(0)" class="cta" onclick="showProducts()">BUY NOW</a>
-        </div>
-    </div>
-
-    <section class="product-gallery" id="product-gallery" style="display: none;">
-        <button class="back-btn" onclick="showHero()">← Back to Home</button>
         <h2 class="section-title">OUR COLLECTIONS</h2>
+
         <div class="product-grid">
             <div class="product-card">
                 <div class="product-img"></div> 
@@ -50,6 +56,7 @@
                 <button class="cart-btn" onclick="addToCart('Soul Army Tee', 599)">Add to Cart</button>
                 <button class="buy-now-btn" onclick="buyNow('Soul Army Tee', 599)">Buy Now</button>
             </div>
+
             <div class="product-card">
                 <div class="product-img"></div>
                 <h3>Military Hoodie</h3>
@@ -57,6 +64,7 @@
                 <button class="cart-btn" onclick="addToCart('Military Hoodie', 1200)">Add to Cart</button>
                 <button class="buy-now-btn" onclick="buyNow('Military Hoodie', 1200)">Buy Now</button>
             </div>
+
             <div class="product-card">
                 <div class="product-img"></div>
                 <h3>Tactical Cap</h3>
@@ -70,19 +78,15 @@
 <script>
     let cart = [];
 
-    function showProducts() {
-  
-    document.getElementById("hero-section").style.display = "none";
-    document.getElementById("product-gallery").style.display = "block";
-    window.scrollTo(0, 0);
-}
+    function toggleSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        element.classList.toggle("show");
+    }
 
-function showHero() {
-   
-    document.getElementById("product-gallery").style.display = "none";
-    document.getElementById("hero-section").style.display = "flex"; 
-    window.scrollTo(0, 0);
-}
+    function toggleAboutText() {
+        const textElement = document.getElementById("about-text");
+        textElement.classList.toggle("show");
+    }
 
     function toggleMenu() {
         document.getElementById("sideMenu").classList.toggle("open");
@@ -90,12 +94,6 @@ function showHero() {
 
     function toggleCart() {
         document.getElementById("cart-sidebar").classList.toggle("open");
-    }
-
-    function showProducts() {
-        document.getElementById("hero-section").style.display = "none";
-        document.getElementById("product-gallery").style.display = "block";
-        window.scrollTo(0, 0);
     }
 
     function addToCart(name, price) {
@@ -139,7 +137,9 @@ function showHero() {
             alert("Proceeding to payment for total: ₱" + document.getElementById("total-price").innerText);
         }
     }
+
+
 </script>
 </body>
-
 </html>
+
