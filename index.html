@@ -5,6 +5,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div id="auth-screen" class="auth-screen">
+    <div class="auth-box">
+        <h2>Quick Mart Login</h2>
+
+        <input type="text" id="uname" placeholder="Enter Username" required>
+       <div class="input-box">
+
+    <input type="password" id="pass" placeholder="Enter Password" required>
+
+    <span id="togglePass" class="eye-icon">O</span>
+</div>
+
+        <button id="signinbtn" class="auth-btn login-btn">Sign in</button>
+
+        <p id="errormessage" style="height:20px;"></p>
+
+        <p style="color:white;">Forgot Password</p>
+        <p style="color:white;">Don't have an account? <strong>Sign Up</strong></p>
+    </div>
+</div>
+
     <header class="navbar">
         <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
         <div class="logo">QUICK MART</div>
@@ -16,7 +38,18 @@
 
     <nav class="side-menu" id="sideMenu">
         <button class="close-btn" onclick="toggleMenu()">×</button>
-        <a href="#">Home</a>
+        <a href="javascript:void(0)" onclick="goHome()">Home</a> 
+
+
+       <div class="menu-item-container">
+    <a href="javascript:void(0)" onclick="toggleAccount()">Account</a>
+    <div id="account-menu" class="dropdown-content">
+        <p style="margin-top:10px; font-size: 12px; color: #ffffff;">Logged in as: User</p>
+        <button onclick="logout()" style="margin-top:10px; padding:8px; width:100%;">Log Out</button>
+    </div>
+</div>
+
+
         <a href="#">Blogs</a>
 
         <div class="menu-item-container">
@@ -76,7 +109,124 @@
     </section>
 
 <script>
+
+var defuname = "admin";
+var defpass = "admin123";
+
+var errormessage = document.getElementById("errormessage");
+var p = document.getElementById("pass");
+var u = document.getElementById("uname");
+var signinbtn = document.getElementById("signinbtn");
+
+// PASSWORD TOGGLE 
+var togglePass = document.getElementById("togglePass");
+
+if (togglePass) {
+    togglePass.addEventListener("click", () => {
+        if (p.type === "password") {
+            p.type = "text";
+            togglePass.innerHTML = "X";
+        } else {
+            p.type = "password";
+            togglePass.innerHTML = "O";
+        }
+
+        togglePass.classList.add("active");
+
+        setTimeout(() => {
+            togglePass.classList.remove("active");
+        }, 200);
+    });
+}
+
+//LOGIN PHASE
+signinbtn.addEventListener("click", () => {
+    var uname = u.value;
+    var pass = p.value;
+
+    const savedUser = localStorage.getItem("userEmail");
+    const savedPass = localStorage.getItem("userPass");
+
+    if (
+        (uname === defuname && pass === defpass) ||
+        (uname === savedUser && pass === savedPass)
+    ) {
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("currentUser", uname);
+
+        document.getElementById("auth-screen").style.display = "none";
+        alert("Welcome to Quick Mart!");
+    } else {
+        errormessage.innerHTML = "Invalid username or password";
+        errormessage.style.color = "red";
+
+        p.style.border = "1px solid red";
+        u.style.border = "1px solid red";
+
+        setTimeout(() => {
+            errormessage.innerHTML = "";
+            p.style.border = "";
+            u.style.border = "";
+        }, 3000);
+    }
+});
+
+// LOG OUT PHASE
+function logout() {
+    // going back to log session
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPass");
+
+    // showing login screen again
+    document.getElementById("auth-screen").style.display = "flex";
+
+    // optional cleanup
+    cart = [];
+    updateCartUI();
+
+    alert("You have been logged out.");
+}
+
+window.onload = function () {
+    const savedEmail = localStorage.getItem("userEmail");
+    const savedPass = localStorage.getItem("userPass");
+
+    if (savedEmail && savedPass) {
+        document.getElementById("auth-screen").style.display = "none";
+    }
+};
+
     let cart = [];
+
+    function goHome() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+    toggleMenu();
+}
+
+function toggleAccount() {
+    document.getElementById("account-menu").classList.toggle("show");
+}
+
+function logout() {
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPass");
+
+    // reset cart
+    cart = [];
+    updateCartUI();
+
+    // show login screen again
+    document.getElementById("auth-screen").style.display = "flex";
+
+    // close menu and cart if open
+    document.getElementById("sideMenu").classList.remove("open");
+    document.getElementById("cart-sidebar").classList.remove("open");
+
+    alert("You have been logged out.");
+}
 
     function toggleSection(sectionId) {
         const element = document.getElementById(sectionId);
