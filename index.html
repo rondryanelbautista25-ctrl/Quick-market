@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<!-- Login phase -->
 <div id="auth-screen" class="auth-screen">
     <div class="auth-box">
         <h2>Quick Mart Login</h2>
@@ -27,6 +27,10 @@
     </div>
 </div>
 
+
+
+
+
     <header class="navbar">
         <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
         <div class="logo">QUICK MART</div>
@@ -35,6 +39,10 @@
             <span id="cart-count">0</span>
         </div>
     </header>
+
+<div class="search-bar-container">
+    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+</div>
 
     <nav class="side-menu" id="sideMenu">
         <button class="close-btn" onclick="toggleMenu()">×</button>
@@ -195,6 +203,21 @@ window.onload = function () {
         document.getElementById("auth-screen").style.display = "none";
     }
 };
+// search bar
+function searchProducts() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const products = document.querySelectorAll(".product-card");
+
+    products.forEach(product => {
+        const title = product.querySelector("h3").innerText.toLowerCase();
+
+        if (title.includes(input)) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
 
     let cart = [];
 
