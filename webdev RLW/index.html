@@ -1,26 +1,127 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SOUL ARMY</title>
+    <title>QUICK MART</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div id="toast" class="toast"></div>
+
+<!-- Login phase -->
+<div id="auth-screen" class="auth-screen">
+    <div class="auth-box">
+        <h2>Quick Mart Login</h2>
+
+        <input type="text" id="uname" placeholder="Enter Username" required>
+       <div class="input-box">
+
+    <input type="password" id="pass" placeholder="Enter Password" required>
+
+    <span id="togglePass" class="eye-icon">O</span>
+</div>
+
+        <button id="signinbtn" class="auth-btn login-btn">Sign in</button>
+
+        <p id="errormessage" style="height:20px;"></p>
+
+        <p style="color:white; cursor:pointer;" onclick="openForgot()">Forgot Password?</p>
+
+        <div id="forgot-modal" class="signup-modal">
+    <div class="signup-box">
+
+        <h2>RESET PASSWORD</h2>
+
+        <input type="text" id="forgotUser" placeholder="Enter Username">
+        <input type="password" id="forgotPass" placeholder="New Password">
+
+        <button onclick="resetPassword()" class="auth-btn signup-btn">Reset</button>
+        <button onclick="closeForgot()" class="auth-btn login-btn">Cancel</button>
+    </div>
+</div>
+
+        <p style="color:white;">
+Don't have an account? 
+<strong style="cursor:pointer; color:orange;" onclick="openSignup()">Sign Up</strong>
+</p>
+    </div>
+</div>
+
+<!-- SIGN UP MODAL -->
+<div id="signup-modal" class="signup-modal">
+    <div class="signup-box">
+
+        <h2>CREATE ACCOUNT</h2>
+
+        <input type="text" id="newUser" placeholder="Enter Username">
+        <input type="password" id="newPass" placeholder="Enter Password">
+
+        <button onclick="createAccount()" class="auth-btn signup-btn">Sign Up</button>
+        <button onclick="closeSignup()" class="auth-btn login-btn">Cancel</button>
+    </div>
+</div>
+
+<!-- FOR FLOATING SEARCH  -->
+<button class="floating-search-btn" onclick="toggleSearchPopup()">🔍</button>
+
+<!-- SEARCH POPUP -->
+<div id="searchPopup" class="search-popup">
+    <div class="search-popup-box">
+        <input type="text" id="mobileSearchInput" placeholder="Search products..." onkeyup="searchProductsMobile()">
+        <button onclick="toggleSearchPopup()">✖</button>
+    </div>
+</div>
+
+
+
     <header class="navbar">
         <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-        <div class="logo">SOUL ARMY</div>
+        <div class="logo">QUICK MART</div>
         <div class="cart-icon" onclick="toggleCart()">
             <span>🛒</span> 
             <span id="cart-count">0</span>
         </div>
     </header>
 
+<div class="search-bar-container">
+    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+</div>
+
     <nav class="side-menu" id="sideMenu">
-        <button class="close-btn" onclick="toggleMenu()" style=>×</button>
-        <a href="#">Home</a>
-        <a href="#">Blogs</a>
-        <a href="#">About us</a>
-        <a href="#">Contact us</a>
-    </nav>
+
+    <button class="close-btn" onclick="toggleMenu()">×</button>
+
+    <a href="javascript:void(0)" onclick="goHome()">Home</a> 
+
+    <div class="menu-item-container">
+        <a href="javascript:void(0)" onclick="toggleAccount()">Account</a>
+        <div id="account-menu" class="dropdown-content">
+            <p style="margin-top:10px; font-size: 12px; color: #ffffff;">
+                <p id="sidebar-username">Logged in as: </p>
+            </p>
+        </div>
+    </div>
+
+    <div class="menu-item-container">
+        <a href="javascript:void(0)" onclick="toggleSection('contact-info')">Contact us</a>
+        <div id="contact-info" class="dropdown-content">
+            <p style="margin-top:15px; font-size: 12px; color: #000000;">
+                Email: QUICKMART67@gmail.com
+            </p>
+        </div>
+    </div>
+
+    <div class="menu-item-container">
+        <a href="javascript:void(0)" onclick="toggleAboutText()">About us</a>
+        <div id="about-text" class="dropdown-text">
+            Quick Mart is a modern and convenient online mini grocery store...
+        </div>
+    </div>
+
+   <button class="sidebar-logout" onclick="logout()">Log Out</button>
+    
+
+</nav>
 
     <div id="cart-sidebar" class="cart-sidebar">
         <button class="close-btn" onclick="toggleCart()">×</button>
@@ -32,98 +133,1155 @@
         <button class="checkout-btn" onclick="checkout()">Checkout Now</button>
     </div>
 
-    <div class="main-hero" id="hero-section">
-        <div class="hero-content">
-            <h1>SHOP NOW</h1>
-            <a href="javascript:void(0)" class="cta" onclick="showProducts()">BUY NOW</a>
-        </div>
-    </div>
+    <div id="checkout-modal" class="signup-modal">
+    <div class="signup-box">
 
-    <section class="product-gallery" id="product-gallery" style="display: none;">
+        <h2>CHECKOUT</h2>
+
+        <input type="text" id="fullname" placeholder="Full Name">
+        <input type="text" id="address" placeholder="Delivery Address">
+        <input type="text" id="phone" placeholder="Phone Number">
+
+        <select id="payment">
+            <option value="">Select Payment Method</option>
+            <option value="COD">Cash on Delivery</option>
+            <option value="GCash">GCash</option>
+        </select>
+
+        <p>Total: ₱<span id="checkout-total">0</span></p>
+
+        <button onclick="placeOrder()" class="auth-btn signup-btn">Place Order</button>
+        <button onclick="closeCheckout()" class="auth-btn login-btn">Cancel</button>
+    </div>
+</div>
+
         <h2 class="section-title">OUR COLLECTIONS</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-img"></div> 
-                <h3>Soul Army Tee</h3>
-                <p>₱599.00</p>
-                <button class="cart-btn" onclick="addToCart('Soul Army Tee', 599)">Add to Cart</button>
-                <button class="buy-now-btn" onclick="buyNow('Soul Army Tee', 599)">Buy Now</button>
-            </div>
-            <div class="product-card">
-                <div class="product-img"></div>
-                <h3>Military Hoodie</h3>
-                <p>₱1,200.00</p>
-                <button class="cart-btn" onclick="addToCart('Military Hoodie', 1200)">Add to Cart</button>
-                <button class="buy-now-btn" onclick="buyNow('Military Hoodie', 1200)">Buy Now</button>
-            </div>
-            <div class="product-card">
-                <div class="product-img"></div>
-                <h3>Tactical Cap</h3>
-                <p>₱350.00</p>
-                <button class="cart-btn" onclick="addToCart('Tactical Cap', 350)">Add to Cart</button>
-                <button class="buy-now-btn" onclick="buyNow('Tactical Cap', 350)">Buy Now</button>
-            </div>
-        </div>
-    </section>
+
+ <div class="category-bar">
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('snacks')">Snacks</button>
+    <button onclick="filterCategory('bread')">Bread</button>
+    <button onclick="filterCategory('drinks')">Drinks</button>
+    <button onclick="filterCategory('candy')">Candy</button>
+    <button onclick="filterCategory('noodles')">Noodles</button>
+    <button onclick="filterCategory('canned')">Canned</button>
+    <button onclick="filterCategory('sachet')">Sachet</button>
+    <button onclick="filterCategory('frozen')">Frozen</button>
+    <button onclick="filterCategory('care')">Care</button>
+    <button onclick="filterCategory('household')">Household</button>
+</div>
+
+<div class="product-grid">
+
+<!-- ================= SNACKS ================= -->
+
+<div class="product-card snacks">
+ <img class="product-img" src="potato chips.png" alt="Potato Chips">
+    
+<h3>Potato Chips</h3><p>₱20</p>
+
+<button class="cart-btn" onclick="addToCart('Potato Chips',20)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Potato Chips',20)">Buy Now</button></div>
+
+<div class="product-card snacks">
+<img class="product-img" src="cheese puffs.png">
+<h3>Cheese Puffs</h3><p>₱20</p>
+<button class="cart-btn" onclick="addToCart('Cheese Puffs',20)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Cheese Puffs',20)">Buy Now</button>
+</div>
+
+<div class="product-card snacks">
+<img class="product-img" src="crackers.png">
+<h3>Crackers</h3><p>₱15</p>
+<button class="cart-btn" onclick="addToCart('Crackers',15)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Crackers',15)">Buy Now</button>
+</div>
+
+<div class="product-card snacks">
+<img class="product-img" src="corn chips.png">
+<h3>Corn Chips</h3><p>₱18</p>
+<button class="cart-btn" onclick="addToCart('Corn Chips',18)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Corn Chips',18)">Buy Now</button>
+</div>
+
+<div class="product-card snacks">
+<img class="product-img" src="banana chips.png">
+<h3>Banana Chips</h3><p>₱25</p>
+<button class="cart-btn" onclick="addToCart('Banana Chips',25)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Banana Chips',25)">Buy Now</button>
+</div>
+
+<div class="product-card snacks">
+<img class="product-img" src="chicharon.png">
+<h3>Chicharon</h3><p>₱30</p>
+<button class="cart-btn" onclick="addToCart('Chicharon',30)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Chicharon',30)">Buy Now</button>
+</div>
+
+<div class="product-card snacks">
+<img class="product-img" src="wafer sticks.png">
+<h3>Wafer Sticks</h3><p>₱22</p>
+<button class="cart-btn" onclick="addToCart('Wafer Sticks',22)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Wafer Sticks',22)">Buy Now</button>
+</div>
+
+<div class="product-card snacks">
+<img class="product-img" src="biscuit.png">
+<h3>Biscuits</h3><p>₱10</p>
+<button class="cart-btn" onclick="addToCart('Biscuits',10)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Biscuits',10)">Buy Now</button>
+</div>
+
+<!-- ================= BREAD & PASTRIES ================= -->
+
+<div class="product-card bread">
+<img class="product-img" src="pandesal.png">
+<h3>Pandesal</h3><p>₱2</p>
+<button class="cart-btn" onclick="addToCart('Pandesal',2)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Pandesal',2)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="loafbread.png">
+<h3>Loaf Bread</h3><p>₱60</p>
+<button class="cart-btn" onclick="addToCart('Loaf Bread',60)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Loaf Bread',60)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="spanishbread.png">
+<h3>Spanish Bread</h3><p>₱8</p>
+<button class="cart-btn" onclick="addToCart('Spanish Bread',8)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Spanish Bread',8)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="ensaymada.png">
+<h3>Ensaymada</h3><p>₱12</p>
+<button class="cart-btn" onclick="addToCart('Ensaymada',12)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Ensaymada',12)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="donut.png">
+<h3>Donut</h3><p>₱15</p>
+<button class="cart-btn" onclick="addToCart('Donut',15)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Donut',15)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="cupcake.png">
+<h3>Cupcake</h3><p>₱10</p>
+<button class="cart-btn" onclick="addToCart('Cupcake',10)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Cupcake',10)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="monay.png">
+<h3>Monay</h3><p>₱5</p>
+<button class="cart-btn" onclick="addToCart('Monay',5)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Monay',5)">Buy Now</button>
+</div>
+
+<div class="product-card bread">
+<img class="product-img" src="hopia.png">
+<h3>Hopia</h3><p>₱12</p>
+<button class="cart-btn" onclick="addToCart('Hopia',12)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Hopia',12)">Buy Now</button>
+</div>
+
+<!-- ================= DRINKS ================= -->
+
+<div class="product-card drinks">
+    <img class="product-img" src="bottled-water.png">
+    <h3>Bottled Water</h3>
+    <p>₱15</p>
+    <button class="cart-btn" onclick="addToCart('Bottled Water',15)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Bottled Water',15)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="coke.png"> 
+    <h3>Coke</h3>
+    <p>₱20</p>
+    <button class="cart-btn" onclick="addToCart('Coke',20)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Coke',20)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="pepsi.png"> 
+    <h3>Pepsi</h3>
+    <p>₱20</p>
+    <button class="cart-btn" onclick="addToCart('Pepsi',20)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Pepsi',20)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="icedtea.png"> 
+    <h3>Iced Tea</h3>
+    <p>₱18</p>
+    <button class="cart-btn" onclick="addToCart('Iced Tea',18)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Iced Tea',18)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="tang.png">
+    <h3>Tang Juice</h3>
+    <p>₱12</p>
+    <button class="cart-btn" onclick="addToCart('Tang Juice',12)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Tang Juice',12)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="coffee.png">
+    <h3>3-in-1 Coffee</h3>
+    <p>₱8</p>
+    <button class="cart-btn" onclick="addToCart('3-in-1 Coffee',8)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('3-in-1 Coffee',8)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="energydrink.png">
+    <h3>Energy Drink</h3>
+    <p>₱35</p>
+    <button class="cart-btn" onclick="addToCart('Energy Drink',35)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Energy Drink',35)">Buy Now</button>
+</div>
+
+<div class="product-card drinks">
+    <img class="product-img" src="chocolatedrink.png">
+    <h3>Chocolate Drink</h3>
+    <p>₱20</p>
+    <button class="cart-btn" onclick="addToCart('Chocolate Drink',20)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Chocolate Drink',20)">Buy Now</button>
+</div>
+
+<!-- ================= CANDY ================= -->
+
+<div class="product-card candy">
+    <img class="product-img" src="chocolatebar.png">
+    <h3>Chocolate Bar</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Chocolate Bar',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Chocolate Bar',10)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="lollipop.png">
+    <h3>Lollipop</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Lollipop',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Lollipop',5)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="gummy.png">
+    <h3>Gummy Candy</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Gummy Candy',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Gummy Candy',10)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="hardcandy.png">
+    <h3>Hard Candy</h3>
+    <p>₱8</p>
+    <button class="cart-btn" onclick="addToCart('Hard Candy',8)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Hard Candy',8)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="caramelcandy.png">
+    <h3>Caramel Candy</h3>
+    <p>₱12</p>
+    <button class="cart-btn" onclick="addToCart('Caramel Candy',12)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Caramel Candy',12)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="jellycandy.png">
+    <h3>Jelly Candy</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Jelly Candy',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Jelly Candy',10)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="marshmallow.png">
+    <h3>Marshmallows</h3>
+    <p>₱15</p>
+    <button class="cart-btn" onclick="addToCart('Marshmallows',15)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Marshmallows',15)">Buy Now</button>
+</div>
+
+<div class="product-card candy">
+    <img class="product-img" src="chewing.png">
+    <h3>Chewing Gum</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Chewing Gum',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Chewing Gum',5)">Buy Now</button>
+</div>
+
+<!-- ================= INSTANT FOODS ================= -->
+
+<div class="product-card noodles">
+    <img class="product-img" src="luckymepancitcanton.png">
+    <h3>Lucky Me Pancit Canton</h3>
+    <p>₱20</p>
+    <button class="cart-btn" onclick="addToCart('Lucky Me Pancit Canton',20)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Lucky Me Pancit Canton',20)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="luckymechickennoodles.png">
+    <h3>Lucky Me Chicken Noodles</h3>
+    <p>₱18</p>
+    <button class="cart-btn" onclick="addToCart('Lucky Me Chicken Noodles',18)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Lucky Me Chicken Noodles',18)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="LuckyMeBeefNoodles.png">
+    <h3>Lucky Me Beef Noodles</h3>
+    <p>₱18</p>
+    <button class="cart-btn" onclick="addToCart('Lucky Me Beef Noodles',18)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Lucky Me Beef Noodles',18)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="luckymecupnoodles.png">
+    <h3>Lucky Me Cup Noodles</h3>
+    <p>₱25</p>
+    <button class="cart-btn" onclick="addToCart('Lucky Me Cup Noodles',25)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Lucky Me Cup Noodles',25)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="nissinramen.png">
+    <h3>Nissin Ramen</h3>
+    <p>₱30</p>
+    <button class="cart-btn" onclick="addToCart('Nissin Ramen',30)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Nissin Ramen',30)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="paylessnoodles.png">
+    <h3>Payless Noodles</h3>
+    <p>₱15</p>
+    <button class="cart-btn" onclick="addToCart('Payless Noodles',15)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Payless Noodles',15)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="instantsouppack.png">
+    <h3>Instant Soup Pack</h3>
+    <p>₱12</p>
+    <button class="cart-btn" onclick="addToCart('Instant Soup Pack',12)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Instant Soup Pack',12)">Buy Now</button>
+</div>
+
+<div class="product-card noodles">
+    <img class="product-img" src="spicynoodles.png">
+    <h3>Spicy Noodles</h3>
+    <p>₱22</p>
+    <button class="cart-btn" onclick="addToCart('Spicy Noodles',22)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Spicy Noodles',22)">Buy Now</button>
+</div>
+
+<!-- ================= CANNED FOODS ================= -->
+
+<div class="product-card canned">
+<img class="product-img" src="sardines.png">
+<h3>Sardines</h3><p>₱22</p>
+<button class="cart-btn" onclick="addToCart('Sardines',22)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Sardines',22)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="tuna.png">
+<h3>Tuna</h3><p>₱35</p>
+<button class="cart-btn" onclick="addToCart('Tuna',35)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Tuna',35)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="cornedbeef.png">
+<h3>Corned Beef</h3><p>₱45</p>
+<button class="cart-btn" onclick="addToCart('Corned Beef',45)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Corned Beef',45)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="meatloaf.png">
+<h3>Meat Loaf</h3><p>₱40</p>
+<button class="cart-btn" onclick="addToCart('Meat Loaf',40)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Meat Loaf',40)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="viennasausage.png">
+<h3>Vienna Sausage</h3><p>₱30</p>
+<button class="cart-btn" onclick="addToCart('Vienna Sausage',30)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Vienna Sausage',30)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="bakedbeans.png">
+<h3>Baked Beans</h3><p>₱28</p>
+<button class="cart-btn" onclick="addToCart('Baked Beans',28)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Baked Beans',28)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="evaporatedmilk.png">
+<h3>Evaporated Milk</h3><p>₱35</p>
+<button class="cart-btn" onclick="addToCart('Evaporated Milk',35)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Evaporated Milk',35)">Buy Now</button>
+</div>
+
+<div class="product-card canned">
+<img class="product-img" src="condensedmilk.png">
+<h3>Condensed Milk</h3><p>₱40</p>
+<button class="cart-btn" onclick="addToCart('Condensed Milk',40)">Add to Cart</button>
+<button class="buy-now-btn" onclick="buyNow('Condensed Milk',40)">Buy Now</button>
+</div>
+
+<!-- ================= SACHET ITEMS ================= -->
+
+<div class="product-card sachet">
+    <img class="product-img" src="shampoosachet.png">
+    <h3>Shampoo Sachet</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Shampoo Sachet',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Shampoo Sachet',5)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="conditionersachet.png">
+    <h3>Conditioner Sachet</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Conditioner Sachet',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Conditioner Sachet',5)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="coffeesachet.png">
+    <h3>Coffee Sachet</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Coffee Sachet',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Coffee Sachet',10)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="creamersachet.png">
+    <h3>Creamer Sachet</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Creamer Sachet',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Creamer Sachet',5)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="sugarpack.png">
+    <h3>Sugar Pack</h3>
+    <p>₱3</p>
+    <button class="cart-btn" onclick="addToCart('Sugar Pack',3)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Sugar Pack',3)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="saltpack.png">
+    <h3>Salt Pack</h3>
+    <p>₱2</p>
+    <button class="cart-btn" onclick="addToCart('Salt Pack',2)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Salt Pack',2)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="cookingoil.sachet.png">
+    <h3>Cooking Oil Sachet</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Cooking Oil Sachet',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Cooking Oil Sachet',10)">Buy Now</button>
+</div>
+
+<div class="product-card sachet">
+    <img class="product-img" src="soysaucesachet.png">
+    <h3>Soy Sauce Sachet</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Soy Sauce Sachet',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Soy Sauce Sachet',5)">Buy Now</button>
+</div>
+
+<!-- ================= FROZEN FOODS ================= -->
+
+<div class="product-card frozen">
+    <img class="product-img" src="icecandy.png">
+    <h3>Ice Candy</h3>
+    <p>₱5</p>
+    <button class="cart-btn" onclick="addToCart('Ice Candy',5)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Ice Candy',5)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="icetubig.png">
+    <h3>Ice Tubig</h3>
+    <p>₱3</p>
+    <button class="cart-btn" onclick="addToCart('Ice Tubig',3)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Ice Tubig',3)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="icecream.png">
+    <h3>Ice Cream (Small)</h3>
+    <p>₱25</p>
+    <button class="cart-btn" onclick="addToCart('Ice Cream (Small)',25)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Ice Cream (Small)',25)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="hotdog.png">
+    <h3>Hotdog</h3>
+    <p>₱50</p>
+    <button class="cart-btn" onclick="addToCart('Hotdog',50)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Hotdog',50)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="longganisa.png">
+    <h3>Longganisa</h3>
+    <p>₱120</p>
+    <button class="cart-btn" onclick="addToCart('Longganisa',120)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Longganisa',120)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="tocino.png">
+    <h3>Tocino</h3>
+    <p>₱110</p>
+    <button class="cart-btn" onclick="addToCart('Tocino',110)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Tocino',110)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="nuggets.png">
+    <h3>Frozen Nuggets</h3>
+    <p>₱150</p>
+    <button class="cart-btn" onclick="addToCart('Frozen Nuggets',150)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Frozen Nuggets',150)">Buy Now</button>
+</div>
+
+<div class="product-card frozen">
+    <img class="product-img" src="fries.png">
+    <h3>Frozen Fries</h3>
+    <p>₱120</p>
+    <button class="cart-btn" onclick="addToCart('Frozen Fries',120)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Frozen Fries',120)">Buy Now</button>
+</div>
+
+<!-- ================= PERSONALCARE ================= -->
+
+<!-- PERSONAL CARE -->
+<div class="product-card care">
+    <img class="product-img" src="bathsoap.png">
+    <h3>Bath Soap</h3>
+    <p>₱35</p>
+    <button class="cart-btn" onclick="addToCart('Bath Soap',35)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Bath Soap',35)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="toothpaste.png">
+    <h3>Toothpaste</h3>
+    <p>₱50</p>
+    <button class="cart-btn" onclick="addToCart('Toothpaste',50)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Toothpaste',50)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="toothbrush.png">
+    <h3>Toothbrush</h3>
+    <p>₱20</p>
+    <button class="cart-btn" onclick="addToCart('Toothbrush',20)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Toothbrush',20)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="deodorant.png">
+    <h3>Deodorant</h3>
+    <p>₱120</p>
+    <button class="cart-btn" onclick="addToCart('Deodorant',120)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Deodorant',120)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="facepowder.png">
+    <h3>Face Powder</h3>
+    <p>₱80</p>
+    <button class="cart-btn" onclick="addToCart('Face Powder',80)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Face Powder',80)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="lotion.png">
+    <h3>Lotion</h3>
+    <p>₱150</p>
+    <button class="cart-btn" onclick="addToCart('Lotion',150)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Lotion',150)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="alcohol.png">
+    <h3>Alcohol</h3>
+    <p>₱60</p>
+    <button class="cart-btn" onclick="addToCart('Alcohol',60)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Alcohol',60)">Buy Now</button>
+</div>
+
+<div class="product-card care">
+    <img class="product-img" src="facemask.png">
+    <h3>Face Mask</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Face Mask',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Face Mask',10)">Buy Now</button>
+</div>
+
+<!-- ================= HOUSEHOLD================= -->
+
+<!-- HOUSEHOLD ITEMS -->
+<div class="product-card household">
+    <img class="product-img" src="detergentpowder.png">
+    <h3>Detergent Powder</h3>
+    <p>₱20</p>
+    <button class="cart-btn" onclick="addToCart('Detergent Powder',20)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Detergent Powder',20)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="diswashingliquid.png">
+    <h3>Dishwashing Liquid</h3>
+    <p>₱30</p>
+    <button class="cart-btn" onclick="addToCart('Dishwashing Liquid',30)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Dishwashing Liquid',30)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="fabricconditioner.png">
+    <h3>Fabric Conditioner</h3>
+    <p>₱25</p>
+    <button class="cart-btn" onclick="addToCart('Fabric Conditioner',25)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Fabric Conditioner',25)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="bleach.png">
+    <h3>Bleach</h3>
+    <p>₱40</p>
+    <button class="cart-btn" onclick="addToCart('Bleach',40)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Bleach',40)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="scrubsponge.png">
+    <h3>Scrub Sponge</h3>
+    <p>₱15</p>
+    <button class="cart-btn" onclick="addToCart('Scrub Sponge',15)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Scrub Sponge',15)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="trashbag.png">
+    <h3>Trash Bags</h3>
+    <p>₱50</p>
+    <button class="cart-btn" onclick="addToCart('Trash Bags',50)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Trash Bags',50)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="tissueroll.png">
+    <h3>Tissue Roll</h3>
+    <p>₱45</p>
+    <button class="cart-btn" onclick="addToCart('Tissue Roll',45)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Tissue Roll',45)">Buy Now</button>
+</div>
+
+<div class="product-card household">
+    <img class="product-img" src="matches.png">
+    <h3>Matches</h3>
+    <p>₱10</p>
+    <button class="cart-btn" onclick="addToCart('Matches',10)">Add to Cart</button>
+    <button class="buy-now-btn" onclick="buyNow('Matches',10)">Buy Now</button>
+</div>
+
+
+
 
 <script>
+// DEFAULT ADMIN
+var defuname = "admin";
+var defpass = "admin123";
+
+var errormessage = document.getElementById("errormessage");
+var p = document.getElementById("pass");
+var u = document.getElementById("uname");
+var signinbtn = document.getElementById("signinbtn");
+
+// GET USERS INFO
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+// SAVE USERS INFO
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+// TOAST
+function showToast(msg, type = "success") {
+    const toast = document.getElementById("toast");
+    toast.innerText = msg;
+    toast.className = "toast show " + type;
+
+    setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+
+// OPEN SIGNUP MODAL
+function openSignup() {
+    document.getElementById("signup-modal").style.display = "flex";
+}
+
+// CLOSE SIGNUP MODAL
+function closeSignup() {
+    document.getElementById("signup-modal").style.display = "none";
+}
+
+// CREATING ACCOUNT
+function createAccount() {
+    const username = document.getElementById("newUser").value;
+    const password = document.getElementById("newPass").value;
+
+    if (!username || !password) {
+        showToast("Fill all fields");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const exists = users.find(user => user.username === username);
+
+    if (exists) {
+        showToast("User already exists!");
+        return;
+    }
+
+    users.push({ username, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    showToast("Account created successfully!");
+    closeSignup();
+}
+
+// SIGN UP FUNCTION
+function signup() {
+    const username = u.value;
+    const password = p.value;
+
+    if (!username || !password) {
+        showToast("Fill all fields");
+        return;
+    }
+
+    let users = getUsers();
+
+    const exists = users.find(user => user.username === username);
+    if (exists) {
+        showToast("User already exists!");
+        return;
+    }
+
+    users.push({ username, password });
+    saveUsers(users);
+
+    showToast("Account created! You can now login.");
+}
+// SHOWPASS
+var togglePass = document.getElementById("togglePass");
+
+if (togglePass) {
+    togglePass.addEventListener("click", () => {
+        if (p.type === "password") {
+            p.type = "text";
+            togglePass.innerHTML = "X";
+        } else {
+            p.type = "password";
+            togglePass.innerHTML = "O";
+        }
+    });
+}
+
+//  LOGIN FUNCTION
+signinbtn.addEventListener("click", () => {
+    const username = u.value;
+    const password = p.value;
+
+    let users = getUsers();
+
+    const validUser = users.find(user => 
+        user.username === username && user.password === password
+    );
+
+    if (
+    (username === defuname && password === defpass) ||
+    validUser
+) {
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("currentUser", username);
+    
+    updateUsernameUI();
+
+    document.getElementById("auth-screen").style.display = "none";
+
+    loadCart(); 
+
+    showToast("Welcome " + username + "!");
+    location.reload();
+}
+ else {
+        errormessage.innerHTML = "Invalid username or password";
+        errormessage.style.color = "red";
+
+        p.style.border = "1px solid red";
+        u.style.border = "1px solid red";
+
+        setTimeout(() => {
+            errormessage.innerHTML = "";
+            p.style.border = "";
+            u.style.border = "";
+        }, 3000);
+    }
+});
+
+// OPEN FORGOT MODAL
+function openForgot() {
+    document.getElementById("forgot-modal").style.display = "flex";
+}
+
+// CLOSE FORGOT MODAL
+function closeForgot() {
+    document.getElementById("forgot-modal").style.display = "none";
+}
+
+// RESET PASSWORD
+function resetPassword() {
+    const username = document.getElementById("forgotUser").value;
+    const newPassword = document.getElementById("forgotPass").value;
+
+    if (!username || !newPassword) {
+        showToast("Fill all fields");
+        return;
+    }
+
+    let users = getUsers();
+
+    const userIndex = users.findIndex(user => user.username === username);
+
+    if (userIndex === -1) {
+        showToast("User not found!");
+        return;
+    }
+
+    users[userIndex].password = newPassword;
+    saveUsers(users);
+
+    showToast("Password reset successful!");
+    closeForgot();
+}
+
+function updateUsernameUI() {
+    const user = localStorage.getItem("currentUser") || "";
+    document.getElementById("sidebar-username").innerText =
+        user ? "Logged in as: " + user : "Not logged in";
+}
+
+// AUTO LOGIN FORM
+window.onload = function () {
+    const isLoggedIn = localStorage.getItem("loggedIn");
+
+    updateUsernameUI();
+    document.getElementById("sidebar-username").innerText =
+  "Logged in as: " + localStorage.getItem("currentUser");
+
+    if (isLoggedIn === "true") {
+        document.getElementById("auth-screen").style.display = "none";
+        loadCart(); // IMPORTANT
+    } else {
+        document.getElementById("auth-screen").style.display = "flex";
+    }
+};
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("currentUser");
+
+    document.getElementById("auth-screen").style.display = "flex";
+
+    cart = [];
+    updateCartUI();
+
+    document.getElementById("sideMenu").classList.remove("open");
+    document.getElementById("cart-sidebar").classList.remove("open");
+
+    showToast("Logged out successfully");
+    updateUsernameUI();
+}
+
+
+
+// search bar
+function searchProducts() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const products = document.querySelectorAll(".product-card");
+
+    products.forEach(product => {
+        const title = product.querySelector("h3").innerText.toLowerCase();
+
+        if (title.includes(input)) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
+// TOGGLE POPUP
+function toggleSearchPopup() {
+    document.getElementById("searchPopup").classList.toggle("active");
+}
+
+function filterCategory(category) {
+    const items = document.querySelectorAll(".product-card");
+
+    items.forEach(item => {
+        if (category === "all") {
+            item.style.display = "block";
+        } else {
+            if (item.classList.contains(category)) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        }
+    });
+}
+
+// MOBILE SEARCH FUNCTION
+function searchProductsMobile() {
+    const input = document.getElementById("mobileSearchInput").value.toLowerCase();
+    const products = document.querySelectorAll(".product-card");
+
+    products.forEach(product => {
+        const title = product.querySelector("h3").innerText.toLowerCase();
+        product.style.display = title.includes(input) ? "block" : "none";
+    });
+}
+
     let cart = [];
+
+    function goHome() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+    toggleMenu();
+}
+
+function toggleAccount() {
+    document.getElementById("account-menu").classList.toggle("show");
+}
+
+    function toggleSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        element.classList.toggle("show");
+    }
+
+    function toggleAboutText() {
+        const textElement = document.getElementById("about-text");
+        textElement.classList.toggle("show");
+    }
 
     function toggleMenu() {
         document.getElementById("sideMenu").classList.toggle("open");
     }
 
+
+ function getCartKey() {
+    const user = localStorage.getItem("currentUser");
+    return user ? "cart_" + user : null;
+}
+
+function saveCart() {
+    const key = getCartKey();
+    if (!key) return;
+
+    localStorage.setItem(key, JSON.stringify(cart));
+}
+
+function loadCart() {
+    const key = getCartKey();
+    if (!key) {
+        cart = [];
+        return;
+    }
+
+    const saved = localStorage.getItem(key);
+    cart = saved ? JSON.parse(saved) : [];
+
+    updateCartUI();
+}
+
     function toggleCart() {
         document.getElementById("cart-sidebar").classList.toggle("open");
     }
 
-    function showProducts() {
-        document.getElementById("hero-section").style.display = "none";
-        document.getElementById("product-gallery").style.display = "block";
-        window.scrollTo(0, 0);
+function addToCart(name, price) {
+    let existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name, price, qty: 1 });
     }
 
-    function addToCart(name, price) {
-        cart.push({name, price});
-        updateCartUI();
-        alert(name + " added to cart!");
+    saveCart();
+    updateCartUI();
+}
+
+function buyNow(name, price) {
+    let existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name, price, qty: 1 });
     }
 
-    function buyNow(name, price) {
-        cart = [{name, price}];
-        updateCartUI();
-        toggleCart();
+    saveCart();
+    updateCartUI();
+
+    // Force cart open instead of toggle
+    document.getElementById("cart-sidebar").classList.add("open");
+
+    showToast(name + " added!", "success");
+}   
+
+function placeOrder() {
+    const name = document.getElementById("fullname").value;
+    const address = document.getElementById("address").value;
+    const phone = document.getElementById("phone").value;
+    const payment = document.getElementById("payment").value;
+
+    if (!name || !address || !phone || !payment) {
+        showToast("Please fill all details!");
+        return;
     }
 
-    function updateCartUI() {
-        const cartItemsElement = document.getElementById("cart-items");
-        const totalElement = document.getElementById("total-price");
-        const countElement = document.getElementById("cart-count");
-        
-        cartItemsElement.innerHTML = "";
-        let total = 0;
+    // Save order
+    const order = {
+        user: localStorage.getItem("currentUser"),
+        items: cart,
+        total: document.getElementById("total-price").innerText,
+        name,
+        address,
+        phone,
+        payment,
+        date: new Date().toLocaleString()
+    };
 
-        cart.forEach((item) => {
-            total += item.price;
-            cartItemsElement.innerHTML += `
-                <div class="cart-item">
-                    <span>${item.name}</span>
-                    <span>₱${item.price}</span>
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    // Clear cart after order
+    cart = [];
+    saveCart();
+    updateCartUI();
+
+    showToast("Order placed successfully!");
+
+    closeCheckout();
+}
+
+ function updateCartUI() {
+    const cartItemsElement = document.getElementById("cart-items");
+    const totalElement = document.getElementById("total-price");
+    const countElement = document.getElementById("cart-count");
+
+    cartItemsElement.innerHTML = "";
+    let total = 0;
+    let count = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price * item.qty;
+        count += item.qty;
+
+        cartItemsElement.innerHTML += `
+            <div class="cart-item">
+                
+                <span>${item.name}</span>
+
+                <div class="qty-box">
+                    <button onclick="changeQty(${index}, -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button onclick="changeQty(${index}, 1)">+</button>
                 </div>
-            `;
-        });
 
-        totalElement.innerText = total.toLocaleString();
-        countElement.innerText = cart.length;
+                <span>₱${item.price * item.qty}</span>
+
+                <button class="remove-btn" onclick="removeItem(${index})">×</button>
+            </div>
+        `;
+    });
+
+    totalElement.innerText = total.toLocaleString();
+    countElement.innerText = count;
+}
+
+function changeQty(index, value) {
+    cart[index].qty += value;
+
+    if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
     }
 
-    function checkout() {
-        if (cart.length === 0) {
-            alert("Your cart is empty!");
-        } else {
-            alert("Proceeding to payment for total: ₱" + document.getElementById("total-price").innerText);
-        }
+    saveCart();
+    updateCartUI();
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+
+    saveCart();
+    updateCartUI();
+}
+
+function checkout() {
+    if (cart.length === 0) {
+        showToast("Your cart is empty!");
+        return;
     }
+
+    document.getElementById("checkout-modal").style.display = "flex";
+
+    // Show total in checkout
+    document.getElementById("checkout-total").innerText =
+        document.getElementById("total-price").innerText;
+
+}function closeCheckout() {
+    document.getElementById("checkout-modal").style.display = "none";
+}
+
+
 </script>
 </body>
 </html>
+
